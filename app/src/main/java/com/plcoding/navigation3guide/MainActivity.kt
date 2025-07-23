@@ -15,35 +15,35 @@ import com.plcoding.navigation3guide.navigation.NavigationRoot
 import com.plcoding.navigation3guide.ui.theme.Navigation3GuideTheme
 
 class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            Navigation3GuideTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    NavigationRoot(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding)
-                    )
-                }
-            }
-        }
-    }
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		enableEdgeToEdge()
+		setContent {
+			Navigation3GuideTheme {
+				Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+					NavigationRoot(
+						modifier = Modifier
+							.fillMaxSize()
+							.padding(innerPadding)
+					)
+				}
+			}
+		}
+	}
 }
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+	Text(
+		text = "Hello $name!",
+		modifier = modifier
+	)
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    Navigation3GuideTheme {
-        Greeting("Android")
-    }
+	Navigation3GuideTheme {
+		Greeting("Android")
+	}
 }
