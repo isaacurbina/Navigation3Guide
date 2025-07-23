@@ -11,71 +11,68 @@ import androidx.navigation3.ui.Scene
 import androidx.navigation3.ui.SceneStrategy
 import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOWER_BOUND
 
-class TwoPaneScene<T: Any>(
-    override val key: Any,
-    override val previousEntries: List<NavEntry<T>>,
-    val firstEntry: NavEntry<T>,
-    val secondEntry: NavEntry<T>
-): Scene<T> {
+class TwoPaneScene<T : Any>(
+	override val key: Any,
+	override val previousEntries: List<NavEntry<T>>,
+	val firstEntry: NavEntry<T>,
+	val secondEntry: NavEntry<T>
+) : Scene<T> {
 
-    override val entries: List<NavEntry<T>>
-        get() = listOf(firstEntry, secondEntry)
+	override val entries: List<NavEntry<T>>
+		get() = listOf(firstEntry, secondEntry)
 
-    override val content: @Composable (() -> Unit)
-        get() = {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                Box(
-                    modifier = Modifier
-                        .weight(0.3f)
-                ) {
-                    firstEntry.content(firstEntry.key)
-                }
-                Box(
-                    modifier = Modifier
-                        .weight(0.7f)
-                ) {
-                    secondEntry.content(secondEntry.key)
-                }
-            }
-        }
+	override val content: @Composable (() -> Unit)
+		get() = {
+			Row(
+				modifier = Modifier.fillMaxSize()
+			) {
+				Box(
+					modifier = Modifier.weight(1f)
+				) {
+					firstEntry.content(firstEntry.key)
+				}
+				Box(
+					modifier = Modifier.weight(1f)
+				) {
+					secondEntry.content(secondEntry.key)
+				}
+			}
+		}
 
-    companion object {
-        const val TWO_PANE_KEY = "TwoPaneKey"
-        fun twoPane() = mapOf(TWO_PANE_KEY to true)
-    }
+	companion object {
+		const val TWO_PANE_KEY = "TwoPaneKey"
+		fun twoPane() = mapOf(TWO_PANE_KEY to true)
+	}
 }
 
-class TwoPaneSceneStrategy<T: Any>: SceneStrategy<T> {
+class TwoPaneSceneStrategy<T : Any> : SceneStrategy<T> {
 
-    @Composable
-    override fun calculateScene(
-        entries: List<NavEntry<T>>,
-        onBack: (Int) -> Unit
-    ): Scene<T>? {
-        val windowClass = currentWindowAdaptiveInfo().windowSizeClass
+	@Composable
+	override fun calculateScene(
+		entries: List<NavEntry<T>>,
+		onBack: (Int) -> Unit
+	): Scene<T>? {
+		val windowClass = currentWindowAdaptiveInfo().windowSizeClass
 
-        if(!windowClass.isWidthAtLeastBreakpoint(WIDTH_DP_MEDIUM_LOWER_BOUND)) {
-            return null
-        }
+		if (!windowClass.isWidthAtLeastBreakpoint(WIDTH_DP_MEDIUM_LOWER_BOUND)) {
+			return null
+		}
 
-        val lastTwoEntries = entries.takeLast(2)
-        val hasTwoPaneKey = lastTwoEntries.all {
-            it.metadata.containsKey(TwoPaneScene.TWO_PANE_KEY) && it.metadata[TwoPaneScene.TWO_PANE_KEY] == true
-        }
+		val lastTwoEntries = entries.takeLast(2)
+		val hasTwoPaneKey = lastTwoEntries.all {
+			it.metadata.containsKey(TwoPaneScene.TWO_PANE_KEY) && it.metadata[TwoPaneScene.TWO_PANE_KEY] == true
+		}
 
-        return if(lastTwoEntries.size == 2 && hasTwoPaneKey) {
-            val firstEntry = lastTwoEntries.first()
-            val secondEntry = lastTwoEntries.last()
+		return if (lastTwoEntries.size == 2 && hasTwoPaneKey) {
+			val firstEntry = lastTwoEntries.first()
+			val secondEntry = lastTwoEntries.last()
 
-            TwoPaneScene(
-                key = firstEntry.key to secondEntry.key,
-                previousEntries = entries.dropLast(1),
-                firstEntry = firstEntry,
-                secondEntry = secondEntry
-            )
-        } else null
-    }
+			TwoPaneScene(
+				key = firstEntry.key to secondEntry.key,
+				previousEntries = entries.dropLast(1),
+				firstEntry = firstEntry,
+				secondEntry = secondEntry
+			)
+		} else null
+	}
 }

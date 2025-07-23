@@ -14,30 +14,28 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun NoteListScreenUi(
-    onNoteClick: (Int) -> Unit,
-    modifier: Modifier = Modifier
+	onNoteClick: (Int) -> Unit,
+	modifier: Modifier = Modifier
 ) {
-    LazyColumn(
-        modifier = modifier
-            .fillMaxSize(),
-    ) {
-        items(sampleNotes) { note ->
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(note.color)
-                    .clickable {
-                        onNoteClick(note.id)
-                    }
-            ) {
-                Text(
-                    text = note.title,
-                    fontSize = 18.sp
-                )
-                Text(
-                    text = note.content,
-                )
-            }
-        }
-    }
+	LazyColumn(
+		modifier = modifier.fillMaxSize(),
+	) {
+		items(sampleNotes) { note ->
+			Column(
+				modifier = Modifier
+					.fillMaxWidth()
+					.background(note.color)
+					.clickable {
+						onNoteClick(note.id)
+					}) {
+				Text(
+					text = note.title,
+					fontSize = 18.sp
+				)
+				Text(
+					text = note.content,
+				)
+			}
+		}
+	}
 }
